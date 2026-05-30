@@ -1,6 +1,6 @@
 # Stock Analysis Agent
 
-A small, hostable agent that analyses stocks using technical indicators and
+A small, hostable agent that analyzes stocks using technical indicators and
 returns **BUY / HOLD / SELL** recommendations. Give it a ticker (or a basket of
 tickers) and it tells you which ones currently look most attractive.
 
@@ -48,7 +48,7 @@ The API is then available at <http://localhost:8000>, with interactive docs at
 Liveness probe.
 
 #### `GET /analyze/{ticker}`
-Analyse a single ticker.
+Analyze a single ticker.
 
 ```bash
 curl "http://localhost:8000/analyze/AAPL?period=6mo&interval=1d"
@@ -66,7 +66,7 @@ curl "http://localhost:8000/analyze/AAPL?period=6mo&interval=1d"
 ```
 
 #### `POST /recommend`
-Analyse a basket and get ranked recommendations (best opportunities first).
+Analyze a basket and get ranked recommendations (best opportunities first).
 
 ```bash
 curl -X POST "http://localhost:8000/recommend" \

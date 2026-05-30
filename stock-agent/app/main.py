@@ -13,7 +13,7 @@ app = FastAPI(
     title="Stock Analysis Agent",
     version=__version__,
     description=(
-        "A hostable agent that analyses stocks using technical indicators and "
+        "A hostable agent that analyzes stocks using technical indicators and "
         "returns BUY / HOLD / SELL recommendations."
     ),
 )
@@ -29,7 +29,7 @@ def health() -> dict[str, str]:
 def analyze_ticker(
     ticker: str, period: str = "6mo", interval: str = "1d"
 ) -> Analysis:
-    """Analyse a single ticker and return a recommendation."""
+    """Analyze a single ticker and return a recommendation."""
     try:
         history = fetch_history(ticker, period=period, interval=interval)
     except DataFetchError as exc:
@@ -43,7 +43,7 @@ def analyze_ticker(
 
 @app.post("/recommend", response_model=RecommendResponse)
 def recommend(req: RecommendRequest) -> RecommendResponse:
-    """Analyse a basket of tickers and return ranked recommendations."""
+    """Analyze a basket of tickers and return ranked recommendations."""
     results: list[Analysis] = []
     errors: dict[str, str] = {}
 
