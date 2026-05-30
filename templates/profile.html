@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Job Application Helper{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<div class="card">
+    <h2>Personal Information</h2>
+    <form method="POST" action="{{ url_for('profile') }}">
+        <div class="form-group">
+            <label for="full_name">Full Name *</label>
+            <input type="text" id="full_name" name="full_name" value="{{ profile.full_name if profile else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" value="{{ profile.email if profile else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" value="{{ profile.phone if profile else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" value="{{ profile.location if profile else '' }}" placeholder="e.g., New York, NY">
+        </div>
+
+        <div class="form-group">
+            <label for="linkedin_url">LinkedIn Profile URL</label>
+            <input type="url" id="linkedin_url" name="linkedin_url" value="{{ profile.linkedin_url if profile else '' }}" placeholder="https://linkedin.com/in/yourprofile">
+        </div>
+
+        <div class="form-group">
+            <label for="portfolio_url">Portfolio/Website URL</label>
+            <input type="url" id="portfolio_url" name="portfolio_url" value="{{ profile.portfolio_url if profile else '' }}" placeholder="https://yourwebsite.com">
+        </div>
+
+        <div class="form-group">
+            <label for="skills">Skills (comma-separated)</label>
+            <textarea id="skills" name="skills" placeholder="e.g., Python, JavaScript, React, SQL">{{ profile.skills if profile else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="experience_years">Years of Experience</label>
+            <input type="number" id="experience_years" name="experience_years" value="{{ profile.experience_years if profile else '0' }}" min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="cover_letter_template">Cover Letter Template</label>
+            <textarea id="cover_letter_template" name="cover_letter_template" style="min-height: 200px;" placeholder="Write a template cover letter. Use {company} and {position} as placeholders.">{{ profile.cover_letter_template if profile else '' }}</textarea>
+            <small>Tip: Use {company} and {position} as placeholders that will be auto-filled</small>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Profile</button>
+        <a href="{{ url_for('index') }}" class="btn">Cancel</a>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Platform Credentials</h2>
+    <p>To enable automatic job applications, you need to set your credentials in the .env file:</p>
+    <ul style="margin-left: 2rem; margin-top: 1rem;">
+        <li>LINKEDIN_EMAIL - Your LinkedIn email</li>
+        <li>LINKEDIN_PASSWORD - Your LinkedIn password</li>
+        <li>INDEED_EMAIL - Your Indeed email (optional)</li>
+        <li>INDEED_PASSWORD - Your Indeed password (optional)</li>
+    </ul>
+    <p style="margin-top: 1rem; color: #e74c3c;"><strong>Security Note:</strong> Your credentials are stored locally and never shared. Use at your own risk.</p>
+</div>
+{% endblock %}
