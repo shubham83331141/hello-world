@@ -30,13 +30,6 @@ window.TileTexture = (function () {
     return h >>> 0;
   }
 
-  function shade(ctx, x, y, w, h, color, alpha) {
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-    ctx.globalAlpha = 1;
-  }
-
   // --- individual material painters -------------------------------------
 
   function marble(ctx, x, y, w, h, t, rnd) {
@@ -205,5 +198,5 @@ window.TileTexture = (function () {
     return cv;
   }
 
-  return { draw, swatch, shade };
+  return { draw, swatch };
 })();

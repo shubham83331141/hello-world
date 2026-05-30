@@ -118,7 +118,6 @@ window.Visualizer = (function () {
       const k = 1 / (1 + Z * persp);
       return [cx + worldX * k, horizonY + floorH * k];
     }
-    function yToZ() {}
 
     const grout = Math.max(0, opt.grout);
     const cols = 9;
