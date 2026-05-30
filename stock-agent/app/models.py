@@ -47,3 +47,38 @@ class RecommendResponse(BaseModel):
 
     results: List[Analysis]
     errors: dict[str, str] = Field(default_factory=dict)
+
+
+class WatchItemModel(BaseModel):
+    """A ticker on the watchlist with optional per-ticker score thresholds."""
+
+    ticker: str = Field(..., min_length=1)
+    buy_threshold: Optional[float] = Field(
+        None, description="Score at/above which the ticker is a BUY (default 0.3)"
+    )
+    sell_threshold: Optional[float] = Field(
+        None, description="Score at/below which the ticker is a SELL (default -0.3)"
+    )
+
+
+class WatchlistResponse(BaseModel):
+    """Response body listing the current watchlist."""
+
+    items: List[WatchItemModel]
+
+
+class AlertModel(BaseModel):
+    """A recommendation change emitted by a scan."""
+
+    ticker: str
+    old_recommendation: Optional[str] = None
+    new_recommendation: str
+    score: float
+
+
+class ScanResponse(BaseModel):
+    """Response body for a watchlist scan."""
+
+    results: List[Analysis]
+    alerts: List[AlertModel] = Field(default_factory=list)
+    errors: dict[str, str] = Field(default_factory=dict)
