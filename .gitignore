@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+.vscode
+
+# If you open the Next.js app at repo root by mistake
+node_modules
+.next
+out
+
