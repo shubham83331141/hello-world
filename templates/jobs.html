@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Jobs - Job Application Helper{% endblock %}
+
+{% block content %}
+<h1>All Jobs</h1>
+
+<div class="card">
+    <h2>Discovered Jobs</h2>
+    {% if jobs %}
+    <p>Total jobs found: <strong>{{ jobs|length }}</strong></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Source</th>
+                <th>Posted Date</th>
+                <th>Discovered</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td><a href="{{ job.url }}" target="_blank">{{ job.title }}</a></td>
+                <td>{{ job.company }}</td>
+                <td>{{ job.location or 'N/A' }}</td>
+                <td><span class="badge badge-applied">{{ job.source }}</span></td>
+                <td>{{ job.posted_date.strftime('%Y-%m-%d') if job.posted_date else 'N/A' }}</td>
+                <td>{{ job.discovered_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <button class="btn" onclick="applyToJob({{ job.id }})">Apply</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No jobs found yet. Go to the dashboard and click "Fetch New Jobs" to start!</p>
+    <a href="{{ url_for('index') }}" class="btn">Go to Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function applyToJob(jobId) {
+    if (confirm('Apply to this job automatically?')) {
+        fetch('/api/auto-apply', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ job_ids: [jobId] })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error applying to job');
+        });
+    }
+}
+</script>
+{% endblock %}

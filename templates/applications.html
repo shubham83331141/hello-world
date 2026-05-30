@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Applications - Job Application Helper{% endblock %}
+
+{% block content %}
+<h1>My Applications</h1>
+
+<div class="card">
+    <h2>Application History</h2>
+    {% if applications %}
+    <p>Total applications: <strong>{{ applications|length }}</strong></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied Date</th>
+                <th>Auto Applied</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in applications %}
+            <tr>
+                <td>
+                    {% if item.job %}
+                    <a href="{{ item.job.url }}" target="_blank">{{ item.job.title }}</a>
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>{{ item.job.company if item.job else 'N/A' }}</td>
+                <td>
+                    <span class="badge badge-{{ item.application.status }}">
+                        {{ item.application.status }}
+                    </span>
+                </td>
+                <td>{{ item.application.applied_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ 'Yes' if item.application.auto_applied else 'No' }}</td>
+                <td>{{ item.application.notes or '-' }}</td>
+                <td>
+                    <select onchange="updateStatus({{ item.application.id }}, this.value)">
+                        <option value="">Update Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="applied">Applied</option>
+                        <option value="interview">Interview</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="accepted">Accepted</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No applications yet. Start applying to jobs from the dashboard!</p>
+    <a href="{{ url_for('index') }}" class="btn">Go to Dashboard</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function updateStatus(appId, newStatus) {
+    if (!newStatus) return;
+
+    fetch(`/api/update-application/${appId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Application status updated!');
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating status');
+    });
+}
+</script>
+{% endblock %}
