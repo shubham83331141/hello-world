@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumière Tiles · Showroom Visualizer</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◈</span>
+      <div>
+        <h1>Lumière Tiles</h1>
+        <p>Showroom Visualizer</p>
+      </div>
+    </div>
+    <nav class="topnav">
+      <a href="#catalog-section">Collection</a>
+      <a href="#visualizer">Visualizer</a>
+      <a href="#quote">Quote</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Help your customer see it before they buy it</h2>
+    <p>Browse the collection, drop any tile into a true-to-scale room, fine-tune the
+       layout and grout, and build an instant quote &mdash; all in one screen.</p>
+  </section>
+
+  <!-- Visualizer -->
+  <section id="visualizer" class="visualizer">
+    <div class="stage-wrap">
+      <canvas id="stage"></canvas>
+      <div class="stage-caption">
+        <h3 id="vis-name">&nbsp;</h3>
+        <p id="vis-sub">&nbsp;</p>
+      </div>
+    </div>
+
+    <aside class="controls">
+      <h3>Customize the view</h3>
+
+      <div class="control">
+        <label>View</label>
+        <div class="segmented">
+          <label><input type="radio" name="mode" value="room" checked /> <span>Room</span></label>
+          <label><input type="radio" name="mode" value="flat" /> <span>Top&nbsp;down</span></label>
+        </div>
+      </div>
+
+      <div class="control">
+        <label>Layout</label>
+        <div class="segmented">
+          <label><input type="radio" name="layout" value="grid" checked /> <span>Straight</span></label>
+          <label><input type="radio" name="layout" value="brick" /> <span>Brick</span></label>
+        </div>
+      </div>
+
+      <div class="control">
+        <label for="scale">Tile scale <output id="scale-val">1.0×</output></label>
+        <input type="range" id="scale" min="0.5" max="2" step="0.1" value="1" />
+      </div>
+
+      <div class="control">
+        <label for="grout">Grout width <output id="grout-val">2 px</output></label>
+        <input type="range" id="grout" min="0" max="10" step="1" value="2" />
+      </div>
+
+      <div class="control">
+        <label for="grout-color">Grout colour</label>
+        <input type="color" id="grout-color" value="#cfc9bd" />
+      </div>
+
+      <p class="hint">Tip: switch to <em>Top&nbsp;down</em> to judge the repeat and grout up close.</p>
+    </aside>
+  </section>
+
+  <!-- Catalog -->
+  <section id="catalog-section" class="catalog-section">
+    <div class="catalog-head">
+      <h2>The Collection</h2>
+      <span id="result-count" class="count"></span>
+    </div>
+
+    <div class="filters">
+      <input type="search" id="search" placeholder="Search marble, wood, bathroom…" aria-label="Search tiles" />
+      <label class="sel">Material
+        <select id="f-material">
+          <option value="all">All</option>
+          <option value="marble">Marble</option>
+          <option value="granite">Granite</option>
+          <option value="ceramic">Ceramic</option>
+          <option value="wood">Wood look</option>
+          <option value="mosaic">Mosaic</option>
+          <option value="terrazzo">Terrazzo</option>
+          <option value="cement">Cement</option>
+        </select>
+      </label>
+      <label class="sel">Colour
+        <select id="f-color"><option value="all">All</option></select>
+      </label>
+      <label class="sel">Sort
+        <select id="f-sort">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+          <option value="name">Name</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="catalog" class="grid"></div>
+  </section>
+
+  <!-- Quote -->
+  <section id="quote" class="quote-section">
+    <div class="quote-head">
+      <h2>Customer Quote</h2>
+      <span class="count"><strong id="quote-count">0</strong> lines</span>
+    </div>
+    <div id="quote-items" class="quote-items"></div>
+    <div class="quote-foot">
+      <div class="totals">
+        <span>Estimated total</span>
+        <strong id="quote-total">$0</strong>
+      </div>
+      <div class="quote-buttons">
+        <button id="print-quote" class="btn primary">Print / Save PDF</button>
+        <button id="clear-quote" class="btn ghost">Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Lumière Tiles · Showroom Visualizer — runs fully offline, no data leaves this device.</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/texture.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
